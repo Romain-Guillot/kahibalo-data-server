@@ -20,7 +20,6 @@ export class EntriesHtmlController implements EntriesController {
     @Get(':id')
     @Render('entry')
     get(@Param('id') id: string): any {
-        throw new NotImplementedException();
         return this.entriesService.findOne(id);
     }
 }
