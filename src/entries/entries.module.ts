@@ -1,12 +1,10 @@
 import { Module } from '@nestjs/common';
-import { EntriesHtmlController } from './entries.html.controller';
-import { EntriesJsonController } from './entries.json.controller';
 import { EntriesService } from './entries.service';
+import { EntriesController } from './entries.controller';
 
 @Module({
     controllers: [
-      EntriesHtmlController,
-      EntriesJsonController
+      EntriesController
     ],
     providers: [
       EntriesService
