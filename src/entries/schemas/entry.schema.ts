@@ -4,6 +4,9 @@ import { Document } from 'mongoose';
 @Schema({versionKey: false})
 export class Entry extends Document {
     @Prop()
+    _id: string;
+
+    @Prop()
     title: string;
 }
 

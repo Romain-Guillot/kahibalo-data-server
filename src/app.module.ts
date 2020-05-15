@@ -3,6 +3,7 @@ import { EntriesModule } from './entries/entries.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import Joi = require('@hapi/joi');
 import { MongooseModule } from '@nestjs/mongoose';
+import { Mongoose } from 'mongoose';
 
 
 /**
@@ -36,9 +37,10 @@ import { MongooseModule } from '@nestjs/mongoose';
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
         uri: configService.get('HOST'),
+        useFindAndModify: false,
       }),
       inject: [ConfigService],
-    }),
+    },),
   ]
 })
 export class AppModule {}

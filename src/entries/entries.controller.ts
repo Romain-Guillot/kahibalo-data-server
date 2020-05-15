@@ -22,30 +22,39 @@ export class EntriesController {
         try {
             return await this.entriesService.findOne(id);
         } catch (err) {
-            throw new HttpException("Not found", HttpStatus.NOT_FOUND);
+            throw new HttpException('Not found', HttpStatus.NOT_FOUND);
         }
     }
 
     @Post()
     async create(@Body() entry: EntryCreateDto) : Promise<void> {
-        this.entriesService.add(entry);
+        try {
+            await this.entriesService.add(entry);
+        } catch (err) {
+            throw new HttpException('Cannot create', HttpStatus.CONFLICT);
+        }
+        
     }
 
-    @Put()
-    async update() : Promise<void> {
-
+    @Put(':id')
+    async update(@Param('id') id: string, @Body() entry: EntryCreateDto) : Promise<void> {
+        try {
+            await this.entriesService.update(id, entry);
+        } catch (err) {
+            throw new HttpException("", HttpStatus.NOT_FOUND);
+        }
     }
 
-    @Delete(":id")
+    @Delete(':id')
     async delete(@Param('id') id: string) : Promise<void> {
         try {
             await this.entriesService.delete(id);
         } catch (err) {
             switch (err.constructor) {
                 case EntryNotFound:
-                    throw new HttpException("Not found", HttpStatus.NOT_FOUND);
+                    throw new HttpException('Not found', HttpStatus.NOT_FOUND);
                 default:
-                    throw new HttpException("Cannot delete", HttpStatus.INTERNAL_SERVER_ERROR);
+                    throw new HttpException('Cannot delete', HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }
     }

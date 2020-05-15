@@ -3,6 +3,7 @@ import { EntryCreateDto } from "./dto/entry-create.dto";
 import { InjectModel } from "@nestjs/mongoose";
 import { Entry } from "./schemas/entry.schema";
 import { Model, isValidObjectId } from "mongoose";
+import slug = require("slug");
 
 @Injectable()
 export class EntriesService {
@@ -13,10 +14,7 @@ export class EntriesService {
     }
 
     async findOne(id: string) : Promise<Entry> {
-        let entry = undefined;
-        if (isValidObjectId(id)) {
-            entry = await this.entryModel.findById(id).exec();
-        }
+        let entry = await this.entryModel.findById(id).exec();
         if (entry == null) {
             throw new EntryNotFound();
         }
@@ -24,21 +22,37 @@ export class EntriesService {
     }
 
     async add(entry: EntryCreateDto) : Promise<void> {
-        await this.entryModel.create(entry)
+        try {
+            await this.entryModel.create({_id: slug(entry.title),...entry})
+        } catch (err) {
+            throw new CannotCreateOrUpdateEntry();
+        }
+        
+    }
+
+    async update(id: string, entry: EntryCreateDto) : Promise<void> {
+        try {
+            const res = await this.entryModel.findOneAndUpdate({_id: id}, entry, {upsert: false});
+            if (res == null) throw Error();
+        } catch (err) {
+            throw new CannotCreateOrUpdateEntry();
+        }
     }
 
     async delete(id: string) : Promise<void> {
         let deleted = false;
-        if (isValidObjectId(id)) {
+        try {
             let a = await this.entryModel.deleteOne({_id: id});
-            if (a.deletedCount == 1) {
-                deleted = true
+            if (a.deletedCount >= 1) {
+                deleted = true;
             }
+        } catch (err) {
+            throw new Error();
         }
-        if (!deleted) {
+        if (!deleted)
             throw new EntryNotFound();
-        }
     }
 }
 
 export class EntryNotFound extends Error { }
+export class CannotCreateOrUpdateEntry extends Error { }
