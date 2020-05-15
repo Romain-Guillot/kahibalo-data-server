@@ -1,19 +1,40 @@
 import { NestFactory, HttpAdapterHost } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
-import { join } from 'path';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import { AllExceptionFilter } from './http-exception.filter';
+import { ConfigService } from '@nestjs/config';
+
+
+function initFilters(app: NestExpressApplication) {
+  const { httpAdapter } = app.get(HttpAdapterHost);
+  app.useGlobalFilters(new AllExceptionFilter(httpAdapter));
+}
+
+function initSwagger(app: NestExpressApplication) {
+  const config = app.get(ConfigService);
+  const options = new DocumentBuilder()
+    .setTitle('Kahibalo API documention')
+    .setVersion('1.0')
+    .setContact(config.get('AUTHOR_NAME'), undefined, config.get('AUTHOR_EMAIL'))
+    .build();
+  const document = SwaggerModule.createDocument(app, options);
+  SwaggerModule.setup('api', app, document);
+}
+
+async function listen(app: NestExpressApplication) {
+  const port = app.get(ConfigService).get('PORT');
+  await app.listen(port);
+}
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
     logger: ['error', 'warn']
   });
-  
-  app.setBaseViewsDir(join(__dirname, '..', 'views'));
-  app.setViewEngine('hbs');
-  const { httpAdapter } = app.get(HttpAdapterHost);
-  app.useGlobalFilters(new AllExceptionFilter(httpAdapter));
 
-  await app.listen(3001);
+  initFilters(app);
+  initSwagger(app);
+  await listen(app);
 }
+
 bootstrap();
