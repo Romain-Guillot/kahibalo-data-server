@@ -1,7 +1,8 @@
 import { Module } from '@nestjs/common';
 import { EntriesModule } from './entries/entries.module';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import Joi = require('@hapi/joi');
+import { MongooseModule } from '@nestjs/mongoose';
 
 
 /**
@@ -13,6 +14,9 @@ import Joi = require('@hapi/joi');
  *  * AUTHOR_NAME   : firt name and last name of the main contact author
  *  * AUTHOR_EMAIL  : email of the main contact author
  *  * PORT          : default port to listen
+ * 
+ * Additionnaly, the MongooseModule is imported to set the connexion with the
+ * mongodb database
  */
 @Module({
   imports: [
@@ -27,7 +31,14 @@ import Joi = require('@hapi/joi');
       validationOptions: {
         abortEarly: true,
       },
-    })
+    }),
+    MongooseModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) => ({
+        uri: configService.get('HOST'),
+      }),
+      inject: [ConfigService],
+    }),
   ]
 })
 export class AppModule {}

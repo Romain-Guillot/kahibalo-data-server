@@ -1,6 +1,8 @@
 import { Controller, Get, HttpException, HttpStatus, Param, NotImplementedException, Post, Body } from "@nestjs/common";
-import { EntryModel } from "./models/entry.model";
+import { EntryModel } from "./dto/entry.dto";
 import { EntriesService } from "./entries.service";
+import { Entry } from "./schemas/entry.schema";
+import { EntryListDto } from "./dto/entry-list.dto";
 
 @Controller("entries")
 export class EntriesController {
@@ -8,22 +10,24 @@ export class EntriesController {
     constructor(private entriesService: EntriesService) {}
 
     @Get()
-    listAll() : any {
-        return {
-            entries: this.entriesService.findAll()
-        };
+    async listAll() : Promise<EntryListDto> {
+        let res = new EntryListDto();
+        res.content = await this.entriesService.findAll()
+        res.lenght = res.content.length;
+        return res;
     }
 
     @Get(':id')
-    get(@Param('id') id: string): any {
-        let entry = this.entriesService.findOne(id);
-        if (entry == null)
+    async get(@Param('id') id: string): Promise<Entry> {
+        const entry = await this.entriesService.findOne(id);
+        if (entry == null) {
             throw new HttpException("Not found", HttpStatus.NOT_FOUND);
+        }
         return entry;
     }
 
     @Post()
-    create(@Body() entry: EntryModel) {
-        this.entriesService.add(entry);
+    async create(@Body() entry: EntryModel) : Promise<void> {
+        // this.entriesService.add(entry);
     }
 }

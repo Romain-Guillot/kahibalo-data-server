@@ -1,25 +1,25 @@
 import { Injectable } from "@nestjs/common";
-import { EntryModel } from "./models/entry.model";
+import { EntryModel } from "./dto/entry.dto";
+import { InjectModel } from "@nestjs/mongoose";
+import { Entry } from "./schemas/entry.schema";
+import { Model, isValidObjectId } from "mongoose";
 
 @Injectable()
 export class EntriesService {
+    constructor(@InjectModel('entries') private entryModel: Model<Entry>) {}
 
-    private entries: Map<string, EntryModel> = new Map();
-
-    constructor() {
-        this.entries.set("wwii", new EntryModel("wii", "WWII"));
-        this.entries.set("ott", new EntryModel("ott", "Empire ottoman"));
+    async findAll() : Promise<Entry[]> {
+        return await this.entryModel.find().exec();
     }
 
-    findAll() : EntryModel[] {
-        return [... this.entries.values()];
+    async findOne(id: string) : Promise<Entry> {
+        if (isValidObjectId(id)) {
+            return await this.entryModel.findById(id).exec();
+        }
+        return null;
     }
 
-    findOne(id: string) : EntryModel {
-        return this.entries.get(id);
-    }
-
-    add(entry: EntryModel) {
-        this.entries.set(entry.id, entry);
+    async add(entry: EntryModel) : Promise<void> {
+        await this.entryModel.create(entry)
     }
 }

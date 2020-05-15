@@ -32,7 +32,7 @@ The purpose of the **Kabibalo** server is to manage entries and categories for b
     - [ ] Publish a draft entry
 
 ## Documentation
-- [API documentation]()
+- [API documentation](http://localhost:3000/doc/#/)
 - [Code documentation]()
 
 ## Installation

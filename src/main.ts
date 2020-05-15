@@ -15,7 +15,7 @@ function initSwagger(app: NestExpressApplication) {
   const config = app.get(ConfigService);
   const options = new DocumentBuilder()
     .setTitle('Kahibalo API documention')
-    .setVersion('1.0')
+    .setVersion('2.0')
     .setContact(config.get('AUTHOR_NAME'), undefined, config.get('AUTHOR_EMAIL'))
     .build();
   const document = SwaggerModule.createDocument(app, options);
