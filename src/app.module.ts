@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common';
 import { EntriesModule } from './entries/entries.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import Joi = require('@hapi/joi');
 import { MongooseModule } from '@nestjs/mongoose';
-import { Mongoose } from 'mongoose';
+import { MongooseConfigService } from './mongoose-config.service';
+import { configuration } from './env-config';
+
 
 
 /**
@@ -22,25 +23,14 @@ import { Mongoose } from 'mongoose';
 @Module({
   imports: [
     EntriesModule,
-    ConfigModule.forRoot({
-      envFilePath: '.development.env',
-      validationSchema: Joi.object({
-        PORT: Joi.number().required(),
-        AUTHOR_NAME: Joi.string().required(),
-        AUTHOR_EMAIL: Joi.string().required()
-      }),
-      validationOptions: {
-        abortEarly: true,
-      },
-    }),
+    ConfigModule.forRoot(configuration),
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
-      useFactory: async (configService: ConfigService) => ({
-        uri: configService.get('HOST'),
-        useFindAndModify: false,
-      }),
-      inject: [ConfigService],
+      inject: [ConfigService], // used in the MongooseConfigService 
+      useClass: MongooseConfigService,
     },),
   ]
 })
 export class AppModule {}
+
+
