@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { EntryModel } from "./dto/entry.dto";
+import { EntryCreateDto } from "./dto/entry-create.dto";
 import { InjectModel } from "@nestjs/mongoose";
 import { Entry } from "./schemas/entry.schema";
 import { Model, isValidObjectId } from "mongoose";
@@ -13,13 +13,32 @@ export class EntriesService {
     }
 
     async findOne(id: string) : Promise<Entry> {
+        let entry = undefined;
         if (isValidObjectId(id)) {
-            return await this.entryModel.findById(id).exec();
+            entry = await this.entryModel.findById(id).exec();
         }
-        return null;
+        if (entry == null) {
+            throw new EntryNotFound();
+        }
+        return entry;
     }
 
-    async add(entry: EntryModel) : Promise<void> {
+    async add(entry: EntryCreateDto) : Promise<void> {
         await this.entryModel.create(entry)
     }
+
+    async delete(id: string) : Promise<void> {
+        let deleted = false;
+        if (isValidObjectId(id)) {
+            let a = await this.entryModel.deleteOne({_id: id});
+            if (a.deletedCount == 1) {
+                deleted = true
+            }
+        }
+        if (!deleted) {
+            throw new EntryNotFound();
+        }
+    }
 }
+
+export class EntryNotFound extends Error { }

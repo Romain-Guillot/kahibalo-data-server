@@ -1,6 +1,6 @@
-import { Controller, Get, HttpException, HttpStatus, Param, NotImplementedException, Post, Body } from "@nestjs/common";
-import { EntryModel } from "./dto/entry.dto";
-import { EntriesService } from "./entries.service";
+import { Controller, Get, HttpException, HttpStatus, Param, NotImplementedException, Post, Body, Put, Delete } from "@nestjs/common";
+import { EntryCreateDto } from "./dto/entry-create.dto";
+import { EntriesService, EntryNotFound } from "./entries.service";
 import { Entry } from "./schemas/entry.schema";
 import { EntryListDto } from "./dto/entry-list.dto";
 
@@ -19,15 +19,34 @@ export class EntriesController {
 
     @Get(':id')
     async get(@Param('id') id: string): Promise<Entry> {
-        const entry = await this.entriesService.findOne(id);
-        if (entry == null) {
+        try {
+            return await this.entriesService.findOne(id);
+        } catch (err) {
             throw new HttpException("Not found", HttpStatus.NOT_FOUND);
         }
-        return entry;
     }
 
     @Post()
-    async create(@Body() entry: EntryModel) : Promise<void> {
-        // this.entriesService.add(entry);
+    async create(@Body() entry: EntryCreateDto) : Promise<void> {
+        this.entriesService.add(entry);
+    }
+
+    @Put()
+    async update() : Promise<void> {
+
+    }
+
+    @Delete(":id")
+    async delete(@Param('id') id: string) : Promise<void> {
+        try {
+            await this.entriesService.delete(id);
+        } catch (err) {
+            switch (err.constructor) {
+                case EntryNotFound:
+                    throw new HttpException("Not found", HttpStatus.NOT_FOUND);
+                default:
+                    throw new HttpException("Cannot delete", HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        }
     }
 }
