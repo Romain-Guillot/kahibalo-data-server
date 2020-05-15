@@ -19,7 +19,7 @@ function initSwagger(app: NestExpressApplication) {
     .setContact(config.get('AUTHOR_NAME'), undefined, config.get('AUTHOR_EMAIL'))
     .build();
   const document = SwaggerModule.createDocument(app, options);
-  SwaggerModule.setup('api', app, document);
+  SwaggerModule.setup('doc', app, document);
 }
 
 async function listen(app: NestExpressApplication) {
