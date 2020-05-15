@@ -1,40 +1,47 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo_text.svg" width="320" alt="Nest Logo" /></a>
-</p>
+# Kabibalo - Server-side
 
-[travis-image]: https://api.travis-ci.org/nestjs/nest.svg?branch=master
-[travis-url]: https://travis-ci.org/nestjs/nest
-[linux-image]: https://img.shields.io/travis/nestjs/nest/master.svg?label=linux
-[linux-url]: https://travis-ci.org/nestjs/nest
-  
-  <p align="center">A progressive <a href="http://nodejs.org" target="blank">Node.js</a> framework for building efficient and scalable server-side applications, heavily inspired by <a href="https://angular.io" target="blank">Angular</a>.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore"><img src="https://img.shields.io/npm/dm/@nestjs/core.svg" alt="NPM Downloads" /></a>
-<a href="https://travis-ci.org/nestjs/nest"><img src="https://api.travis-ci.org/nestjs/nest.svg?branch=master" alt="Travis" /></a>
-<a href="https://travis-ci.org/nestjs/nest"><img src="https://img.shields.io/travis/nestjs/nest/master.svg?label=linux" alt="Linux" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#5" alt="Coverage" /></a>
-<a href="https://gitter.im/nestjs/nestjs?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=body_badge"><img src="https://badges.gitter.im/nestjs/nestjs.svg" alt="Gitter" /></a>
-<a href="https://opencollective.com/nest#backer"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec"><img src="https://img.shields.io/badge/Donate-PayPal-dc3d53.svg"/></a>
-  <a href="https://twitter.com/nestframework"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+This is the repository for the server-side **Kabibalo**. You may need interest by the [client-side repository]().
 
-## Description
+The purpose of the **Kabibalo** server is to manage entries and categories for both end-users and administrators.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+> Kabibilo aims to provide a service to read articles from various topics. It can seen as a very narrow subset of Wikipedia with only *"general knowledge"*-oriented articles. Articles can be classified into multiple categories.  
+> Two user aims to use **Kabibalo** : general users and administrators. An administrator has the rights to edit both articles and resources. The authentication process only apply for the administrators.
+
+
+
+## Technologies used
+
+- **Node.js:** Javascript runtime used for creating server-side web applications (extends the usual Javascript API)
+- **Nest.js:** Node.js framework used to write modular, flexible, scalable server-side applications with Typescript
+- **Express:** web framework for Node.js
+- **Mongo DB:** NoSQL (document-oriented) database
+- **Docker:** used to deploy the app in containers (lightweight and standalone  execution environments)
+- **NGINX:**
+- **Swagger:** used to document the Restful API
+
+## Use cases
+- Unrestricted
+    - [ ] Get the paginate lists of all **published entries** order by *modification date*, *name* or *views*;
+    - [ ] Get the list of **categories**
+    - [ ] Get entries filter by *category*
+    - [ ] Get an **published entry**
+- Restricted
+    - [ ] Create, modify and delete an **entry**
+    - [ ] Create, modify and delete a **category**
+    - [ ] Get the list of draft **entry**
+    - [ ] Publish a draft entry
+
+## Documentation
+- [API documentation]()
+- [Code documentation]()
 
 ## Installation
+
+versions
 
 ```bash
 $ npm install
 ```
-
-## Running the app
 
 ```bash
 # development
@@ -47,8 +54,6 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
-## Test
-
 ```bash
 # unit tests
 $ npm run test
@@ -60,16 +65,17 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
-## Support
+## Deployment (Docker)
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
 
-## Stay in touch
+## Author
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+[Romain Guillot](maitto:romain.guillot.contact@gmail.com)
 
 ## License
 
-  Nest is [MIT licensed](LICENSE).
+[MIT licensed](LICENSE).
+
+
+
+<!-- eof -->
