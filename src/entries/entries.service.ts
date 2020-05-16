@@ -27,7 +27,6 @@ export class EntriesService {
         } catch (err) {
             throw new CannotCreateOrUpdateEntry();
         }
-        
     }
 
     async update(id: string, entry: EntryCreateDto) : Promise<void> {

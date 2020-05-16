@@ -1,6 +1,6 @@
 # Kabibalo - Server-side
 
-This is the repository for the server-side **Kabibalo**. You may need interest by the [client-side repository]().
+This is the repository for the server-side **Kabibalo**. You may need interest by the [webclient-server repository]() who is responsible for the html rendering for web client. Client mobile application soon.
 
 The purpose of the **Kabibalo** server is to manage entries and categories for both end-users and administrators.
 

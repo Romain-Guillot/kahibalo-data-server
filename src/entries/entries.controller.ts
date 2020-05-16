@@ -6,7 +6,6 @@ import { EntryListDto } from "./dto/entry-list.dto";
 
 @Controller("entries")
 export class EntriesController {
-
     constructor(private entriesService: EntriesService) {}
 
     @Get()
