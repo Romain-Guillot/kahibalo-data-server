@@ -8,7 +8,7 @@ import Joi = require("@hapi/joi");
  * JWT_SECRET    :
  */
 export const configuration = {
-    envFilePath: '.development.env',
+  envFilePath: '.development.env',
     validationSchema: Joi.object({
       AUTHOR_NAME: Joi.string().required(),
       AUTHOR_EMAIL: Joi.string().required(),
@@ -19,5 +19,5 @@ export const configuration = {
     validationOptions: {
       abortEarly: true,
     },
-  }
+}
   

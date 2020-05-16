@@ -8,6 +8,9 @@ export class Entry extends Document {
 
     @Prop()
     title: string;
+
+    @Prop()
+    content: string;
 }
 
 export const EntrySchema = SchemaFactory.createForClass(Entry,);

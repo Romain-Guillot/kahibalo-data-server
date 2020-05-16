@@ -22,10 +22,6 @@ export class UsersService {
         };
     }
 
-    async logout() {
-
-    }
-
     async validate(email: string, password: string): Promise<User> {
         let user = await this.find(email);
         if (user && user.password === password) {
