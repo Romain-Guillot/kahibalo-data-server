@@ -4,6 +4,7 @@ import { InjectModel } from "@nestjs/mongoose";
 import { Entry } from "./schemas/entry.schema";
 import { Model } from "mongoose";
 import slug = require("slug");
+import { EntryCreateResponse } from "./dto/entry-create-response.dto";
 
 @Injectable()
 export class EntriesService {
@@ -21,10 +22,13 @@ export class EntriesService {
         return entry;
     }
 
-    async add(entry: EntryCreateDto) : Promise<void> {
+    async add(entry: EntryCreateDto) : Promise<EntryCreateResponse> {
         try {
-            await this.entryModel.create({_id: slug(entry.title),...entry})
+            var entrySlug = slug(entry.title);
+            await this.entryModel.create({_id: entrySlug,...entry});
+            return new EntryCreateResponse(entrySlug);
         } catch (err) {
+            console.log(err);
             throw new CannotCreateOrUpdateEntry();
         }
     }

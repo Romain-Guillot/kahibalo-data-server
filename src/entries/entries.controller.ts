@@ -3,6 +3,7 @@ import { EntryCreateDto } from "./dto/entry-create.dto";
 import { EntriesService, EntryNotFound } from "./entries.service";
 import { Entry } from "./schemas/entry.schema";
 import { EntryListDto } from "./dto/entry-list.dto";
+import { EntryCreateResponse } from "./dto/entry-create-response.dto";
 
 @Controller("entries")
 export class EntriesController {
@@ -26,9 +27,9 @@ export class EntriesController {
     }
 
     @Post()
-    async create(@Body() entry: EntryCreateDto) : Promise<void> {
+    async create(@Body() entry: EntryCreateDto) : Promise<EntryCreateResponse> {
         try {
-            await this.entriesService.add(entry);
+            return await this.entriesService.add(entry);
         } catch (err) {
             throw new HttpException('Cannot create', HttpStatus.CONFLICT);
         }
