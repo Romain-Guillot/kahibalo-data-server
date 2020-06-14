@@ -7,6 +7,9 @@ export class Entry extends Document {
     _id: string;
 
     @Prop()
+    imageUrl: string;
+
+    @Prop()
     title: string;
 
     @Prop()
