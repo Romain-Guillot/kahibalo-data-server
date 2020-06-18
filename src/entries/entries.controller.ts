@@ -12,8 +12,8 @@ export class EntriesController {
     @Get()
     async listAll() : Promise<EntryListDto> {
         let res = new EntryListDto();
-        res.content = await this.entriesService.findAll()
-        res.lenght = res.content.length;
+        res.entries = await this.entriesService.findAll()
+        res.lenght = res.entries.length;
         return res;
     }
 
